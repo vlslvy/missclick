@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Выпадет вишня/яблоко</title>
+  <style>
+    body {
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    button {
+      padding: 20px 40px;
+      font-size: 24px;
+      background-color: #e60000;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .fruit {
+      position: absolute;
+      width: 100px;
+      animation: pop 0.4s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button onclick="play()">нажми, и тебе выпадет вишня/яблоко</button>
+
+  <audio id="audio" src="SOFIA_converted.mp3"></audio>
+
+  <script>
+    const images = ['vishnya.png', 'yabloko.png', 'banan.png'];
+
+    function play() {
+      const audio = document.getElementById('audio');
+      audio.volume = 1.0;
+      audio.play().catch(e => console.error(e));
+
+      // Создаём 2–3 случайные картинки
+      const count = Math.floor(Math.random() * 2) + 2;
+
+      for (let i = 0; i < count; i++) {
+        const img = document.createElement('img');
+        img.src = images[Math.floor(Math.random() * images.length)];
+        img.className = 'fruit';
+
+        // Случайная позиция
+        const top = Math.random() * (window.innerHeight - 100);
+        const left = Math.random() * (window.innerWidth - 100);
+        img.style.top = ${top}px;
+        img.style.left = ${left}px;
+
+        document.body.appendChild(img);
+
+        // Удалить через 3 секунды
+        setTimeout(() => {
+          img.remove();
+        }, 3000);
+      }
+    }
+  </script>
+
+</body>
+</html>
